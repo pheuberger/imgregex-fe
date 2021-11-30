@@ -15,7 +15,6 @@ const LiveDemo = () => {
   const regex = useFormInput('')
 
   async function gitit() {
-    console.log('gettin it')
     setIsLoading(true)
     try {
       const result = await axios({
@@ -24,15 +23,14 @@ const LiveDemo = () => {
         url: '/demo',
         data: {
           regex: regex.value,
-          base64_image: imgSrc
-        }
+          base64_image: imgSrc,
+        },
       })
-      console.log('got damn ', result)
       setCode(result.data)
       setRootName('response')
       setIsLoading(false)
     } catch (err) {
-      console.log('errrrrrorr ', err.response)
+      console.log('error ', err.response)
       setCode(err.response.data)
       setRootName('error')
       setIsLoading(false)
@@ -47,7 +45,6 @@ const LiveDemo = () => {
   }
 
   const onDrop = useCallback(files => {
-    console.log('ondrop', files)
     const reader = new FileReader()
 
     reader.onabort = () => console.log('file reading was aborted')
@@ -66,7 +63,7 @@ const LiveDemo = () => {
 
   const { rejectedFiles, getRootProps, getInputProps } = useDropzone({
     accept: 'image/jpeg, image/png',
-    onDrop
+    onDrop,
   })
 
   const rejected =
@@ -89,7 +86,7 @@ const LiveDemo = () => {
                 <div
                   {...getRootProps({
                     className:
-                      'dropzone border-2 w-full h-full bg-red-600 border-dashed text-center border-red-700 text-gray-500 font-medium table relative cursor-pointer'
+                      'dropzone border-2 w-full h-full bg-red-600 border-dashed text-center border-red-700 text-gray-500 font-medium table relative cursor-pointer',
                   })}
                 >
                   <input {...getInputProps()} />
@@ -100,11 +97,7 @@ const LiveDemo = () => {
                   </p>
                 </div>
               ) : (
-                <img
-                  className="w-full h-full object-cover"
-                  alt="You just uploaded this"
-                  src={imgSrc}
-                />
+                <img className="w-full h-full object-cover" alt="You just uploaded this" src={imgSrc} />
               )}
             </div>
             <div className="flex mt-2">
@@ -148,9 +141,7 @@ const CodeBox = ({ isLoading = false, name = null, code = {}, ...props }) => {
         <div className="rounded-full bg-red-500 w-3 h-3"></div>
         <div className="rounded-full bg-yellow-500 w-3 h-3 ml-2"></div>
         <div className="rounded-full bg-green-500 w-3 h-3 ml-2"></div>
-        <div className="ml-8 text-xs uppercase tracking-wide font-medium text-gray-600">
-          api response
-        </div>
+        <div className="ml-8 text-xs uppercase tracking-wide font-medium text-gray-600">api response</div>
       </div>
       <div className="w-full h-full overflow-scroll">
         {isLoading ? (
